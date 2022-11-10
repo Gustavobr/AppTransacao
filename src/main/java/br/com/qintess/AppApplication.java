@@ -18,7 +18,6 @@ import io.swagger.v3.oas.models.info.License;
 //@EntityScan("br.com.qintess.DTO")
 @RestController
 @RequestMapping("/")
-@EnableCaching
 public class AppApplication {
 
 	public static void main(String[] args) {
@@ -31,5 +30,16 @@ public class AppApplication {
 				.description("API de transação de pagamentos.").termsOfService("http://swagger.io/terms/")
 				.license(new License().name("Apache 2.0").url("http://springdoc.org")));
 	}
+	
+	
+	
+	/*
+	 * public OpenAPI customOpenAPI(){
+	 * 		return new OpenAPi().info(new Info().title("API").version(1.1.0")
+	 * .description("Api teste").termsOfService("http...")
+	 * .license(*new License().name("....").utl("...")));
+	 * }
+	 * 
+	 */
 
 }

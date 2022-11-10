@@ -1,16 +1,28 @@
 package br.com.qintess.controller;
 
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.anything;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +37,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.azure.core.exception.HttpResponseException;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -45,9 +62,12 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @ComponentScan(basePackageClasses = br.com.qintess.service.TransacaoServiceImpl.class)
 public class PagamentoController {
 
+	private static Gson gson = new Gson();
 	private static MongoClient mongo = MongoClients.create("mongodb://localhost:27017/api");
 	private static MongoDatabase DB = mongo.getDatabase("api");
-	private static MongoCollection collection = mongo.getDatabase("api").getCollection("Transacao");
+	private static MongoCollection<?> collection = mongo.getDatabase("api").getCollection("Transacao");
+	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
 	@Qualifier("tranRepo")
 	@Autowired
 	private TransacaoRepository tranRepo;
@@ -75,6 +95,38 @@ public class PagamentoController {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@RequestMapping(value = "/first", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	@Transactional
+	@Caching
+	public Document getFirstdocumentInserted() throws Exception {
+		/// ArrayList<Document> lista = new ArrayList<>();
+		FindIterable<?> list = collection.find();
+		// .collect(Collectors.toList()); /* distinct().filter(doc ->
+		// doc.getTipo().equals("BOLETO")) */
+		// .collect(Collectors.toList());
+		Document document = new Document();
+		document = (Document) list.first();
+		return document;
+		/*
+		 * list.forEach(doc -> { JsonArray arrayJson = new JsonArray(); String result =
+		 * gson.toJson(doc.toString()); arrayJson.add(result); for (int i = 0; i <
+		 * arrayJson.size(); i++) { JsonObject obj = (JsonObject)
+		 * arrayJson.getAsJsonObject().get("_id"); String data =
+		 * obj.get("date").getAsString(); Document document = new Document();
+		 * document.append("id", arrayJson.get(i).getAsJsonObject().get("id"));
+		 * document.append("tipo_transacao",
+		 * arrayJson.get(i).getAsJsonObject().get("tipo_transacao")); Instant hoje =
+		 * Instant.parse(data); while (hoje.isBefore(Instant.now())) {
+		 * lista.add(document);
+		 * 
+		 * } }
+		 * 
+		 * });
+		 */
+		// return lista;
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
