@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" charset="UTF-8"
+	content="width=device-width, initial-scale=1">
+<title>School Js</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+<link rel="stylesheet" href="../style/main.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+<script>
+        
+            $(function(){
+
+
+                
+
+	
+                $("#btn_gravar").click( (event) =>{
+                    let endpoint = 'http://localhost:8080/api/all'
+                    event.preventDefault();
+                    let transacao ={ // Object // Objects
+                    tipo_transacao: $("#tipo").val(),
+                     estabelecimento:  $("#estab").val(),
+                     valor:   $("#valor_transacao").val(),
+                     matricula: $("#aluno_matricula").val()
+                    }
+
+                    
+                   /*           
+                $.ajax({
+                    type: "GET",
+                    async:true,
+                    url: ENDPOINT,
+                    contentType: application/json,
+                    data: null,
+                    dataType: "json",
+                    encode: true,
+                    //success: ()=>{
+                      //  console.log(JSON.parse(aluno))
+                    
+                    success: (data) =>{
+                        console.log(data)
+                    }
+                })
+                */
+                debugger
+                var validator = $( "aluno_form" ).validate();
+				if(Object.keys(transacao).length === 0){
+					window.alert("Aluno sem dados preenchidos");
+					$("#form_aluno").focus();
+				}else{
+				$("#result_doc").css('visibility', 'visible')
+                $.ajax({
+                    url: endpoint,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    type: "GET", /* or type:"GET" or type:"PUT" */
+                    dataType: "json",
+                    data: {
+                    },
+                    success: function (result) {
+                      let response = []
+                      let status  = result.status;
+                      response = result
+                      response.forEach( (doc) =>{
+                          //let document = JSON.parse(doc)
+                          console.log(doc)
+                          console.log(status);
+							$("#form_aluno").append('<table class="table-bordered table-hover table-stripped"><thead><th>DOCUMENTO</th><th>TIPO_TRANSACAO</th></thead><tbody><tr><td>'+doc.id+'</td></tr><td>'+doc.tipo_transacao+'</tr></tbody></table>')
+							$("#form_aluno").trigger('reset');
+                          })  
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+               /*
+                 $.ajax({
+                    url: ENDPOINT,
+                    type: "get",
+                    crossDomain: true,
+                    dataType: 'json',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin':'*',
+                    'Access-Control-Allow-Headers': '*'
+                },
+                     success: function( response ) {
+                        console.log( response ); // server response
+                        }
+                    /*
+                        url: ENDPOINT,
+                     type:"POST",
+                     success: function(data) {
+                    var resp = JSON.parse(response)
+                     alert(data);
+                     console.log(resp.status)
+                    },
+                    error: function (xhr, status) {
+                        alert("error");
+                    }
+                */
+                }
+				});
+                
+                    
+                })
+               
+                //$("#form_aluno").validate();
+                
+                /*$("#btn_gravar").on('submit', (e) =>{
+                   console.log('teste');
+                 
+                 
+                 /*   var aluno = {
+                     nome: $("#aluno_nome").val(),
+                     curso:  $("#aluno_curso").val(),
+                     telefone:   $("#aluno_telefone").val(),
+                     matricula: $("#aluno_matricula").val()
+                    }
+                    console.log(typeof(aluno))
+                    //aluno = JSON.parse(aluno)
+                        
+                $.ajax({
+                    type: "POST",
+                    async:true,
+                    url: "filtro.js",
+                    contentType: application/json,
+                    data: aluno,
+                    dataType: "json",
+                    encode: true,
+                    //success: ()=>{
+                      //  console.log(JSON.parse(aluno))
+                    
+                    success: (data) =>{
+                        console.log(data)
+                    }
+                })
+            */
+               
+          //  })
+
+            
+    </script>
+</head>
+<body>
+<header th:fragment="header">
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/js/bootstrap.min.js"></script>
+	<nav class="navbar navbar-inverse">
+		<ul class="navbar-nav mr-auto">
+			<li><a class="navbar-brand" href="/web">Home</a></li>
+			<li class="nav-item dropdown navbar-brand"><span>&nbsp;</span> <a
+				class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+				role="button" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"> Operações </a>
+				<div class="dropdown-menu text-capitalize text-center"
+					style="border-color: brown;" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item" href="#">Incluir Aluno</a> <a
+						class="dropdown-item" href="#">Lista de Cursos</a>
+
+					<div class="dropdown-divider">
+						<a class="dropdown-item alert-info" href="#">Parcerias</a>
+					</div>
+				</div></li>
+
+		</ul>
+	</nav>
+</header>
+</html>

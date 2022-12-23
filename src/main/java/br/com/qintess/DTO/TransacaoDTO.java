@@ -23,22 +23,26 @@ import lombok.Setter;
 @Entity
 public class TransacaoDTO {
 
-	public TransacaoDTO() {
+	public TransacaoDTO(Tipo_Transacao transferencia, PagamentoDTO pagamentoDTO) {
 
 	}
 
 	@Field(name = "ID")
 	private UUID id;
 	@Field(name = "TIPO_TRANSACAO")
-	private Tipo_Transacao tipo;
+	private String tipo;
 	// @Field(name = "PAGAMENTOS")
 	@DBRef
 	private PagamentoDTO pagamento;
 
-	public TransacaoDTO(Tipo_Transacao tipo, PagamentoDTO pagamento) {
+	public TransacaoDTO(String boleto, PagamentoDTO pagamento) {
 		super();
-		this.tipo = tipo;
+		this.tipo = boleto;
 		this.pagamento = pagamento;
+	}
+
+	public TransacaoDTO() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public UUID getId() {
@@ -49,12 +53,12 @@ public class TransacaoDTO {
 		this.id = id;
 	}
 
-	public Tipo_Transacao getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Tipo_Transacao tipo) {
-		this.tipo = tipo;
+	public void setTipo(String tipo_Transacao) {
+		this.tipo = tipo_Transacao;
 	}
 
 	public PagamentoDTO getPagamento() {

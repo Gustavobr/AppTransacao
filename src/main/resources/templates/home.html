@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" charset="UTF-8"
+	content="width=device-width, initial-scale=1">
+<title>School Js</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+
+
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+
+<script>
+				$(document).ready( function () {
+    				$('#table_docs').DataTable({
+        				searching:true,
+        				ordering: true,
+        				select:true,
+        				paging: true,
+        				scrollY: 400
+							//paging: true,
+							//scrollY: 400
+        				});
+				});
+
+</script>
+</head>
+<body>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/js/bootstrap.min.js"></script>
+	<nav class="navbar navbar-inverse">
+		<ul class="navbar-nav mr-auto">
+			<li class="navbar-brand" style="position: relative; font-size: 14px;"><em
+				class="fa fa-user" style="color: red;" th:text="${username}"></em></li>
+			<li><a class="navbar-brand" href="/" id="home">Home</a></li>
+			<li class="nav-item dropdown navbar-brand"><a
+				class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+				role="button" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false"> Operações </a>
+				<div
+					class="dropdown-menu text-capitalize text-center alert-secondary"
+					style="border-color: brown;" aria-labelledby="navbarDropdown">
+					<button type="button" class="btn btn-primary btn-sm alert-primary"
+						role="button" data-toggle="modal" data-target="#incluir_pagamento"
+						style="margin-left: 2px;">Incluir Transação</button>
+					<div class="dropdown-divider divider py-1 bg-dark"></div>
+					<button type="button" class="btn btn-danger btn-sm alert-primary"
+						role="button" data-toggle="modal" data-target="#excluir_transacao"
+						style="margin-left: 2px;">Excluir Transação</button>
+
+					<div class="dropdown-divider divider py-1 bg-dark"></div>
+					<a class="dropdown-item alert-info" id="link_pagamento">Incluir
+						Pagamento</a>
+
+				</div></li>
+
+		</ul>
+
+	</nav>
+	<div
+		class="container-fluid col-md-6 mt-2 mb-3 mr-3 ml-3 border border-secondary"
+		style="padding-top: 25px; padding: 45px; margin-left: 25%;">
+		<div class="jumbotron mt-3">
+			<h2 class="alert-dismissible text-center">
+				<em class="fa fa-user" aria-hidden="true">TRANSACAO - JS </em>
+
+			</h2>
+		</div>
+		<div class="card border border-secondary">
+			<div class="card-title alert-info text-center" role="alert">
+				<b class="badge bg-dark display-4">Transação - JS</b>
+			</div>
+			<div class="alert-success" th:if="${message}"></div>
+			<hr class="divider py-1 bg-dark" />
+
+			<div class="container col-lg-10 mt-3 mb-2" style="margin-left: 10%;">
+				<table id="table_docs"
+					class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+
+							<th>TIPO</th>
+							<th>VALOR</th>
+							<th>ESTABELECIMENTO</th>
+							<th>ESTORNO</th>
+						</tr>
+					</thead>
+					<tbody th:each="document : ${lista}">
+						<tr>
+							<td scope="row" th:text="${document.tipo}"></td>
+
+
+							<td scope="row" th:text="${document.valor}"></td>
+
+							<td scope="row" th:text="${document.estabelecimento}"></td>
+
+							<td scope="row" th:text="${document.estorno}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="info-box">
+
+
+
+				<div class="divider"></div>
+
+
+				<div class="modal fade" id="excluir_transacao" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Excluir
+									Transação</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Fechar">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form method="post" th:action="@{/deleteDoc}" id="form_delete">
+									<div class="form-group">
+										<label for="recipient-name" class="col-form-label">Tipo:</label>
+										<input type="text" class="form-control" id="tipo_transacao"
+											name="tipo">
+										<hr class="divider py-1 bg-dark" />
+										<label for="recipient-name" class="col-form-label">Estabelecimento:</label>
+										<input type="text" class="form-control" id="tipo_transacao"
+											name="estabelecimento">
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Fechar</button>
+											<button type="submit" class="btn btn-danger btn-sm">
+												<em class="fa fa-trash" aria-hidden="true">Excluir</em>
+											</button>
+										</div>
+								</form>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+			</div>
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="incluir_pagamento" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Nova Transação</h4>
+						</div>
+						<div class="modal-body">
+							<div class="card-body">
+								<form method="post" id="form_transacao" th:action="@{/save}">
+									<div>
+										<label for="Nome" class="badge bg-dark">Tipo_Transação:</label>
+										<input type="text" name="tipo_transacao" id="tipo"
+											required="required" class="form-control"
+											placeholder="Tipo da Transação" />
+									</div>
+									<br />
+									<div>
+										<label for="Nome" class="badge bg-dark">Estabelecimento:</label>
+										<input type="text" name="estabelecimento" id="estab"
+											required="required" class="form-control"
+											placeholder="Estabelecimento" />
+									</div>
+									<br />
+									<div class="form-inline">
+										<label for="Telefone" class="badge bg-dark">Valor:</label> <input
+											type="text" name="valor" id="valor_transacao"
+											required="required" class="form-control"
+											placeholder="R$ VALOR" /><br /> <small class="alert-danger">R$
+											Valor da transação.</small>
+									</div>
+									<br />
+									<div class="form-check">
+										<label class="badge bg-secondary">Estorno:</label><span></span><label
+											class="badge bg-dark" style="margin-left: 5px;">Sim:</label>
+										<input type="checkbox" class="form-check-input" value="true"
+											name="estorno" id="trasacao_estorno_sim" /> <span
+											style="margin-left: 3px;"></span> <label
+											class="badge bg-dark">Não:</label> <input type="checkbox"
+											name="estorno" class="form-check-input" value="false" checked
+											id="transacao_estorno_nao" />
+									</div>
+									<br />
+									<div id="acao" class="form-group-lg">
+										<em class="alert-success btn-success btn-default fa fa-pencil"
+											aria-details="btn-success"><button id="btn_gravar"
+												type="submit" class="btn-success alert-success">Gravar</button></em>
+
+									</div>
+								</form>
+
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<br />
+	<br>
+	<hr class="divider py-1 bg-dark" />
+	<div id="result_doc" style="margin-left: 40px; visibility: hidden;">
+
+	</div>
+</body>
+</html>

@@ -21,6 +21,8 @@ public interface TransacaoService {
 	public  void updateTransacao(UUID id, PagamentoDTO pagamento);
 
 	void deleteTransacao(UUID id);
+	
+	public void deleteDoc(String tipo, String estabelecimento);
 
 	
 

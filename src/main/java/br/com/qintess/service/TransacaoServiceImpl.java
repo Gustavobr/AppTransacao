@@ -47,29 +47,25 @@ public class TransacaoServiceImpl implements TransacaoService {
 			JsonElement element = parser.parse(jsonResp);
 			JsonObject obj = element.getAsJsonObject();
 			String pagamento = obj.get("pagamento").getAsString();
-			if(pagamento != null && !pagamento.isEmpty() == true) {
+			if (pagamento != null && !pagamento.isEmpty() == true) {
 				JsonObject objPagamento = obj.get("pagamento").getAsJsonObject();
 				String estabelecimento = objPagamento.get("estabelecimento").getAsString();
 				String id = objPagamento.get("id").getAsString();
 				double valor = Double.parseDouble(objPagamento.get("valor").getAsString());
 				boolean estorno = Boolean.valueOf(objPagamento.get("estorno").getAsString());
-				
+
 				Document doc = new Document();
-				doc.append("id", transacao.getId())
-							.append("tipo_transacao", transacao.getTipo())
-							.append("pagamento:{", null)
-							.append(id, id)
-							.append("estabelecimento", estabelecimento)
-							.append("valor", valor)
-							.append("estorno", estorno);
+				doc.append("id", transacao.getId()).append("tipo_transacao", transacao.getTipo())
+						.append("pagamento:{", null).append(id, id).append("estabelecimento", estabelecimento)
+						.append("valor", valor).append("estorno", estorno);
 				try {
 					collection.insertOne(doc);
-				}catch(Exception ex) {
-					
+				} catch (Exception ex) {
+
 				}
-							
+
 			}
-			
+
 		}
 
 	}
@@ -110,6 +106,11 @@ public class TransacaoServiceImpl implements TransacaoService {
 
 	@Override
 	public void deleteTransacao(TransacaoDTO transacao) {
+
+	}
+
+	@Override
+	public void deleteDoc(String tipo, String estabelecimento) {
 
 	}
 

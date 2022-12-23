@@ -40,7 +40,7 @@ public class PagamentoServiceImpl implements PagamentoService {
 	@Override
 	public void deletePagamento(UUID id) {
 		if (tranRepo.findById(id).isPresent() == true) {
-			TransacaoDTO tran = new TransacaoDTO(null, null);
+			TransacaoDTO tran = null;
 			tran = tranRepo.findById(id).get();
 			tranRepo.delete(tran);
 		}

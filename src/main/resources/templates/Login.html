@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login - Transacao - JS</title>
+<head>
+<meta name="viewport" charset="UTF-8"
+	content="width=device-width, initial-scale=1">
+<title>School Js</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+<link rel="stylesheet" href="../style/main.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
+
+<script type="text/javascript"
+	src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+<script>
+        
+            $(function(){
+
+
+                
+
+	
+                $("#btn_gravar").click( (event) =>{
+                    let endpoint = 'http://localhost:8080/api/all'
+                    event.preventDefault();
+                    let transacao ={ // Object // Objects
+                    tipo_transacao: $("#tipo").val(),
+                     estabelecimento:  $("#estab").val(),
+                     valor:   $("#valor_transacao").val(),
+                     matricula: $("#aluno_matricula").val()
+                    }
+
+                    
+                   /*           
+                $.ajax({
+                    type: "GET",
+                    async:true,
+                    url: ENDPOINT,
+                    contentType: application/json,
+                    data: null,
+                    dataType: "json",
+                    encode: true,
+                    //success: ()=>{
+                      //  console.log(JSON.parse(aluno))
+                    
+                    success: (data) =>{
+                        console.log(data)
+                    }
+                })
+                */
+                debugger
+                var validator = $( "aluno_form" ).validate();
+				if(Object.keys(transacao).length === 0){
+					window.alert("Aluno sem dados preenchidos");
+					$("#form_aluno").focus();
+				}else{
+				$("#result_doc").css('visibility', 'visible')
+                $.ajax({
+                    url: endpoint,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    type: "GET", /* or type:"GET" or type:"PUT" */
+                    dataType: "json",
+                    data: {
+                    },
+                    success: function (result) {
+                      let response = []
+                      let status  = result.status;
+                      response = result
+                      response.forEach( (doc) =>{
+                          //let document = JSON.parse(doc)
+                          console.log(doc)
+                          console.log(status);
+							$("#form_aluno").append('<table class="table-bordered table-hover table-stripped"><thead><th>DOCUMENTO</th><th>TIPO_TRANSACAO</th></thead><tbody><tr><td>'+doc.id+'</td></tr><td>'+doc.tipo_transacao+'</tr></tbody></table>')
+							$("#form_aluno").trigger('reset');
+                          })  
+                    },
+                    error: function () {
+                        console.log("error");
+                    }
+                });
+               /*
+                 $.ajax({
+                    url: ENDPOINT,
+                    type: "get",
+                    crossDomain: true,
+                    dataType: 'json',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin':'*',
+                    'Access-Control-Allow-Headers': '*'
+                },
+                     success: function( response ) {
+                        console.log( response ); // server response
+                        }
+                    /*
+                        url: ENDPOINT,
+                     type:"POST",
+                     success: function(data) {
+                    var resp = JSON.parse(response)
+                     alert(data);
+                     console.log(resp.status)
+                    },
+                    error: function (xhr, status) {
+                        alert("error");
+                    }
+                */
+                }
+				});
+                
+                    
+                })
+               
+                //$("#form_aluno").validate();
+                
+                /*$("#btn_gravar").on('submit', (e) =>{
+                   console.log('teste');
+                 
+                 
+                 /*   var aluno = {
+                     nome: $("#aluno_nome").val(),
+                     curso:  $("#aluno_curso").val(),
+                     telefone:   $("#aluno_telefone").val(),
+                     matricula: $("#aluno_matricula").val()
+                    }
+                    console.log(typeof(aluno))
+                    //aluno = JSON.parse(aluno)
+                        
+                $.ajax({
+                    type: "POST",
+                    async:true,
+                    url: "filtro.js",
+                    contentType: application/json,
+                    data: aluno,
+                    dataType: "json",
+                    encode: true,
+                    //success: ()=>{
+                      //  console.log(JSON.parse(aluno))
+                    
+                    success: (data) =>{
+                        console.log(data)
+                    }
+                })
+            */
+               
+          //  })
+
+            
+    </script>
+</head>
+<body>
+	<div th:include="fragments/cabecalho :: cabecalho"></div>
+	<div class="container col-md-3 mb-3 mt-3 mr-2 ml-2"
+		style="margin-left: 35%; margin-top: 25px;">
+		<form th:action="@{/login}" method="post" id="form_login">
+			<div class="panel panel-primary">
+				<div class="panel-heading text-center display-4">
+					<em class=" fa fa-user"><span></span>Login</em>
+				</div>
+			</div>
+
+			<div class="form-outline mb-4">
+				<input type="text" id="form2Example1" class="form-control"
+					name="username" /> <label class="form-label" for="form2Example1">Username:</label>
+			</div>
+
+
+			<div class="form-outline mb-4">
+				<input type="password" id="form2Example2" class="form-control"
+					name="password" /> <label class="form-label" for="form2Example2">Password:</label>
+			</div>
+
+
+			<div class="row mb-4">
+				<div class="col d-flex justify-content-center">
+					<!-- Checkbox -->
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value=""
+							id="form2Example31" checked /> <label class="form-check-label"
+							for="form2Example31"> Lembrar? </label>
+					</div>
+				</div>
+
+				<div class="col">
+
+					<a href="#">Esqueceu a senha?</a>
+				</div>
+			</div>
+
+
+			<button type="submit" class="btn btn-primary btn-block mb-4">Sign
+				in</button>
+
+
+
+
+			<div class="text-center">
+				<div th:if="${message}"></div>
+				<p>
+					Not a member? <a href="/register">Register</a>
+				</p>
+				<p>or sign up with:</p>
+				<button type="button" class="btn btn-link btn-floating mx-1">
+					<i class="fab fa-facebook-f"></i>
+				</button>
+
+				<button type="button" class="btn btn-link btn-floating mx-1">
+					<i class="fab fa-google"></i>
+				</button>
+
+				<button type="button" class="btn btn-link btn-floating mx-1">
+					<i class="fab fa-twitter"></i>
+				</button>
+
+				<button type="button" class="btn btn-link btn-floating mx-1">
+					<i class="fab fa-github"></i>
+				</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

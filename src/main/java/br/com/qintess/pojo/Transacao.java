@@ -24,7 +24,7 @@ public class Transacao {
 		MongoDatabase db = client.getDatabase("api");
 		MongoCollection<Document> transacao = db.getCollection("Transacao");
 
-		TransacaoDTO t = new TransacaoDTO(Tipo_Transacao.BOLETO, new PagamentoDTO("CASAS BAHIA", 500.0, false));
+		TransacaoDTO t = new TransacaoDTO();
 		try {
 			FindIterable<Document> count = db.getCollection("Transacao").find();
 			count.forEach(doc -> {

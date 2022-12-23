@@ -66,7 +66,7 @@ class AppApplicationTests {
 		Assert.isTrue(!documents.isEmpty() == true);
 		ArrayList<Document> docs = new ArrayList<>();
 		list.forEach(doc -> {
-			TransacaoDTO transacao = new TransacaoDTO(Tipo_Transacao.BOLETO, null);
+			TransacaoDTO transacao = new TransacaoDTO();
 			if (transacao.getPagamento() != null) {
 				PagamentoDTO pagamento = new PagamentoDTO("TESTE", 0, false);
 

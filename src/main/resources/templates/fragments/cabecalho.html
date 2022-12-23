@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+<meta charset="UTF-8">
+<title>CABECAÇLHO</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css"
+	href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+
+
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+</head>
+<body>
+	<header th:fragment="cabecalho">
+		<nav class="navbar navbar-inverse">
+			<ul class="navbar-nav mr-auto">
+				<li><a class="navbar-brand" href="/">Home</a></li>
+				<li class="nav-item dropdown navbar-brand"><span>&nbsp;</span>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> Operações </a>
+					<div class="dropdown-menu text-capitalize text-center"
+						style="border-color: brown;" aria-labelledby="navbarDropdown"
+						display="inline;">
+						<a class="dropdown-item" href="#">Incluir Aluno</a> <a
+							class="dropdown-item" href="#">Lista de Cursos</a>
+
+						<div class="dropdown-divider">
+							<a class="dropdown-item alert-info" th:href="@{/pagamento}">Parcerias</a>
+						</div>
+					</div></li>
+
+			</ul>
+		</nav>
+	</header>
+</body>
+</html>
