@@ -1,3 +1,3 @@
 # AppTransacao
 
-# SIMPLE APP USING SPRING STARTERS, DOCKER AND other features.
+# Simple App Using Spring starters, Docker and other features.
