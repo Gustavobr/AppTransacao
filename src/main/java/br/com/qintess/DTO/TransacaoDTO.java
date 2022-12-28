@@ -14,8 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Getter
 @Setter
@@ -23,7 +21,7 @@ import lombok.Setter;
 @Entity
 public class TransacaoDTO {
 
-	public TransacaoDTO(Tipo_Transacao transferencia, PagamentoDTO pagamentoDTO) {
+	public TransacaoDTO(String tipo_transacao, PagamentoDTO pagamentoDTO) {
 
 	}
 
@@ -34,12 +32,6 @@ public class TransacaoDTO {
 	// @Field(name = "PAGAMENTOS")
 	@DBRef
 	private PagamentoDTO pagamento;
-
-	public TransacaoDTO(String boleto, PagamentoDTO pagamento) {
-		super();
-		this.tipo = boleto;
-		this.pagamento = pagamento;
-	}
 
 	public TransacaoDTO() {
 		// TODO Auto-generated constructor stub

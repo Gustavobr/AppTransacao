@@ -40,6 +40,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.BsonField;
+import com.mongodb.client.model.Filters;
 
 import br.com.qintess.DTO.PagamentoDTO;
 import br.com.qintess.DTO.TransacaoDTO;

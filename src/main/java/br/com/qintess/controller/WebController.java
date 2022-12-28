@@ -124,7 +124,7 @@ public class WebController {
 	public ModelAndView Authenticate(@RequestParam(required = true) String username,
 			@RequestParam(required = true) String password, Model login, RedirectAttributes attrs)
 			throws AuthenticationFailedException, Exception {
-7		if (username != null && !username.isBlank() == true && password != null && !password.isBlank() == true) {
+		if (username != null && !username.isBlank() == true && password != null && !password.isBlank() == true) {
 			login.addAttribute("password", password);
 			login.addAttribute("username", username);
 
