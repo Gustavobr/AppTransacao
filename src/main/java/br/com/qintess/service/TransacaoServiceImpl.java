@@ -1,10 +1,14 @@
 package br.com.qintess.service;
 
 import java.util.Collection;
+
 import java.util.UUID;
 
 import org.bson.Document;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
@@ -29,6 +33,10 @@ public class TransacaoServiceImpl implements TransacaoService {
 	public TransacaoServiceImpl() {
 
 	}
+
+	@Autowired
+
+	private ModelMapper mapper;
 
 	private Gson gson;
 	private JsonParser parser;
@@ -112,6 +120,10 @@ public class TransacaoServiceImpl implements TransacaoService {
 	@Override
 	public void deleteDoc(String tipo, String estabelecimento) {
 
+	}
+
+	public Page<TransacaoDTO> getAll(Pageable pageable) {
+		return tranRepo.findAll(pageable).map(t -> this.mapper.map(t, TransacaoDTO.class));
 	}
 
 }

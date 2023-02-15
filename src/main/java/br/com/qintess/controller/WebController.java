@@ -19,6 +19,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +29,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -169,6 +172,30 @@ public class WebController {
 		return null;
 
 	}
+	
+	/*
+
+	public boolean verifySessionEnabled(HttpSession session) throws Exception {
+		boolean isEnabled = false;
+		try {
+			if (validSession(session)) {
+				isEnabled = true;
+				return isEnabled;
+			}
+			return isEnabled;
+		} catch (Exception ex) {
+
+		}
+		return isEnabled;
+	}
+
+	private boolean validSession(HttpSession session) {
+		if (session.isNew() || session.getLastAccessedTime() <= Long.parseLong(Duration.ofMinutes(2).toString())) {
+			return true;
+		}
+		return false;
+	}
+	*/
 
 	@PostMapping(value = "/deleteDoc")
 	@org.springframework.transaction.annotation.Transactional
@@ -209,9 +236,21 @@ public class WebController {
 		return new ModelAndView("/error");
 	}
 
+	// @PostConstruct
+	@GetMapping(value = "/transacao")
+	public ResponseEntity<Page<TransacaoDTO>> getAll(Pageable pageable) throws Exception {
+		Page<TransacaoDTO> transacaoDTO = service.getAll(pageable);
+		if (transacaoDTO.hasContent()) {
+			return ResponseEntity.ok(transacaoDTO);
+		} else if (!transacaoDTO.hasContent() == true) {
+			return ResponseEntity.noContent().build();
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	}
+
 	private List<Document> generateListDocuments(Model login, FindIterable<Document> documents) {
 		Collection<Document> list = new ArrayList<>();
-
 		for (Document doc : documents) {
 			String tipo = doc.getString("tipo");
 			Document pagamento = (Document) doc.get("pagamento");

@@ -8,10 +8,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
@@ -21,7 +19,7 @@ import lombok.Setter;
 @Entity
 public class TransacaoDTO {
 
-	public TransacaoDTO(String tipo_transacao, PagamentoDTO pagamentoDTO) {
+	public TransacaoDTO(Tipo_Transacao transferencia, PagamentoDTO pagamentoDTO) {
 
 	}
 
@@ -35,6 +33,11 @@ public class TransacaoDTO {
 
 	public TransacaoDTO() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public TransacaoDTO(String tipo, PagamentoDTO pagamento) {
+		this.tipo = tipo;
+		this.pagamento = pagamento;
 	}
 
 	public UUID getId() {

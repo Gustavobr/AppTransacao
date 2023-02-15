@@ -66,7 +66,6 @@ public class Broker {
 
 		} catch (IOException ex) {
 			throw new IOException(ex.getCause());
-
 		}
 	}
 

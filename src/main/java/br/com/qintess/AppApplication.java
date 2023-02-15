@@ -1,9 +1,11 @@
 package br.com.qintess;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,7 @@ import io.swagger.v3.oas.models.info.License;
 //@EntityScan("br.com.qintess.DTO")
 @RestController
 @RequestMapping("/")
+
 public class AppApplication {
 
 	public static void main(String[] args) {

@@ -1,9 +1,19 @@
 package br.com.qintess.DTO;
 
 import org.springframework.context.annotation.Bean;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.nimbusds.jose.util.Base64;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+
+@Data
+@Setter
+@Getter
 
 /* Pojo class Login */
 public class Login {
